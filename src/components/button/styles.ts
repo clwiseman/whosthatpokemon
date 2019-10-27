@@ -6,6 +6,7 @@ const Button = styled.button`
   height: 5rem;
   border-radius: 0.5rem;
   font-size: 2rem;
+  font-family: inherit;
 
   :hover {
     transform: translateY(-2px);
