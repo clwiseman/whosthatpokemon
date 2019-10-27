@@ -2,46 +2,95 @@ import React, { useRef, useState } from "react";
 import Button from "../button";
 import * as Styled from "./styles";
 
+enum Action {
+  Draw,
+  Erase
+}
+
 const Canvas = () => {
   const [isDrawing, setIsDrawing] = useState(false);
-  const [locations, setLocations] = useState({ x: 0, y: 0 });
+  const [locations, setLocations] = useState([] as { x: number; y: number }[]);
+  const [action, setAction] = useState(Action.Draw);
+
   const canvasRef = useRef(null);
 
   const draw = (ctx: CanvasRenderingContext2D, e: React.MouseEvent) => {
     if (!isDrawing) return;
 
-    ctx.strokeStyle = `hsl(0, 100%, 50%)`;
+    if (action === Action.Erase) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.lineWidth = 15;
+    }
+
+    if (action === Action.Draw) {
+      ctx.globalCompositeOperation = "source-over";
+      ctx.lineWidth = 1;
+    }
+
     ctx.beginPath();
     // start from
-
-    ctx.moveTo(locations.x, locations.y);
+    let lastPosition = locations.pop();
+    if (lastPosition === undefined) {
+      lastPosition = { x: 0, y: 0 };
+    }
+    ctx.moveTo(lastPosition.x, lastPosition.y);
     // go to
     ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
     ctx.stroke();
-    setLocations({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
+    const newLocation = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+    setLocations([...locations, newLocation]);
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDrawing(true);
-    setLocations({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
-  };
-
-  const handleMouseUp = () => setIsDrawing(false);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const getCanvasContext = () => {
     const canvas = canvasRef.current as HTMLCanvasElement | null;
     if (canvas !== null) {
       const ctx = canvas.getContext("2d");
       if (ctx !== null) {
-        draw(ctx, e);
+        return ctx;
       }
     }
+    return null;
   };
+
+  // Event Handlers
+  const handleCanvasDraw = () => {
+    setAction(Action.Draw);
+  };
+
+  const handleCanvasErase = () => {
+    setAction(Action.Erase);
+  };
+
+  const handleCanvasClear = () => {
+    const context = getCanvasContext();
+    const canvas = canvasRef.current as HTMLCanvasElement | null;
+    if (context !== null && canvas !== null)
+      context.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
+  const handleGameStart = () => {
+    console.log("Game Started");
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDrawing(true);
+    const newLocation = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+    setLocations([...locations, newLocation]);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const context = getCanvasContext();
+    if (context !== null) draw(context, e);
+  };
+
+  const handleMouseOut = () => setIsDrawing(false);
+
+  const handleMouseUp = () => setIsDrawing(false);
 
   return (
     <Styled.DrawPad>
       <Styled.TopBar>
-        <Button text={"Start Game"} />
+        <Button text={"Start Game"} handleClick={handleGameStart} />
       </Styled.TopBar>
       <Styled.Canvas
         ref={canvasRef}
@@ -49,12 +98,13 @@ const Canvas = () => {
         height="500"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
+        onMouseOut={handleMouseOut}
         onMouseUp={handleMouseUp}
       ></Styled.Canvas>
       <Styled.BottomBar>
-        <Button icon="pencil"></Button>
-        <Button icon="eraser"></Button>
-        <Button icon="trash"></Button>
+        <Button icon="pencil" handleClick={handleCanvasDraw}></Button>
+        <Button icon="eraser" handleClick={handleCanvasErase}></Button>
+        <Button icon="trash" handleClick={handleCanvasClear}></Button>
       </Styled.BottomBar>
     </Styled.DrawPad>
   );

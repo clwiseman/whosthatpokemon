@@ -6,18 +6,18 @@ interface ButtonProps {
   icon?: string;
   text?: string;
   dark?: boolean;
-  // onClick: () => void;
+  handleClick: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ icon, text, dark }) => {
+const Button: React.FC<ButtonProps> = ({ icon, text, dark, handleClick }) => {
   if (icon) {
     return (
-      <Styled.IconButton>
+      <Styled.IconButton onClick={handleClick}>
         <Icon icon={icon} dark={dark} />
       </Styled.IconButton>
     );
   }
-  return <Styled.TextButton>{text}</Styled.TextButton>;
+  return <Styled.TextButton onClick={handleClick}>{text}</Styled.TextButton>;
 };
 
 export default Button;
