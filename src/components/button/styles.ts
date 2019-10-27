@@ -5,8 +5,18 @@ const Button = styled.button`
   width: 20rem;
   height: 5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
   font-size: 2rem;
+
+  :hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  }
+
+  :active,
+  :focus {
+    transform: translateY(-1px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const IconButton = styled(Button)`
