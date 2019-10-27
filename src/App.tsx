@@ -1,15 +1,18 @@
 import React from "react";
-import { GlobalStyle } from "./globalStyles";
+import { GlobalStyle, theme } from "./globalStyles";
 import Header from "./components/header";
-import Layout from "./components/layout";
+import Canvas from "./components/canvas";
+import { ThemeProvider } from "styled-components";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <GlobalStyle />
-      <Header />
-      <Layout />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <GlobalStyle />
+        <Header />
+        <Canvas />
+      </div>
+    </ThemeProvider>
   );
 };
 

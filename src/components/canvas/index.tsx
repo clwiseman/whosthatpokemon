@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import Button from "../button";
 import * as Styled from "./styles";
 
 const Canvas = () => {
@@ -38,14 +39,24 @@ const Canvas = () => {
   };
 
   return (
-    <Styled.Canvas
-      ref={canvasRef}
-      width="800"
-      height="800"
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    ></Styled.Canvas>
+    <Styled.DrawPad>
+      <Styled.TopBar>
+        <Button text={"Start Game"} />
+      </Styled.TopBar>
+      <Styled.Canvas
+        ref={canvasRef}
+        width="800"
+        height="500"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      ></Styled.Canvas>
+      <Styled.BottomBar>
+        <Button icon="pencil"></Button>
+        <Button icon="eraser"></Button>
+        <Button icon="trash"></Button>
+      </Styled.BottomBar>
+    </Styled.DrawPad>
   );
 };
 
