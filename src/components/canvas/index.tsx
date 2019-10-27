@@ -2,6 +2,11 @@ import React, { useRef, useState } from "react";
 import Button from "../button";
 import * as Styled from "./styles";
 
+enum Action {
+  Draw,
+  Erase
+}
+
 const Canvas = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [locations, setLocations] = useState({ x: 0, y: 0 });
