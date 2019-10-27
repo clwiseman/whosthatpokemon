@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC|DM+Sans&display=swap');
+  
   *,
   *::after,
   *::before {
@@ -16,6 +18,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
   }
 
   button:focus,
@@ -24,7 +27,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    font-size: 5rem;
+    font-family: "Bowlby One SC", serif;
   }
 `;
 
