@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import Button from "../button";
+import Timer from "../timer";
 import * as Styled from "./styles";
 
 enum Action {
@@ -9,6 +10,7 @@ enum Action {
 
 const Canvas = () => {
   const [isDrawing, setIsDrawing] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
   const [action, setAction] = useState(Action.Draw);
 
@@ -69,7 +71,7 @@ const Canvas = () => {
   };
 
   const handleGameStart = () => {
-    console.log("Game Started");
+    setGameStarted(true);
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -90,7 +92,11 @@ const Canvas = () => {
   return (
     <Styled.DrawPad>
       <Styled.TopBar>
-        <Button text={"Start Game"} handleClick={handleGameStart} />
+        {gameStarted ? (
+          <Timer />
+        ) : (
+          <Button text={"Start Game"} handleClick={handleGameStart} />
+        )}
       </Styled.TopBar>
       <Styled.Canvas
         ref={canvasRef}
