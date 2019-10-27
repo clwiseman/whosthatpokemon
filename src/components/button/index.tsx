@@ -12,12 +12,12 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ icon, text, dark, handleClick }) => {
   if (icon) {
     return (
-      <Styled.IconButton onClick={handleClick}>
+      <Styled.Button onClick={handleClick}>
         <Icon icon={icon} dark={dark} />
-      </Styled.IconButton>
+      </Styled.Button>
     );
   }
-  return <Styled.TextButton onClick={handleClick}>{text}</Styled.TextButton>;
+  return <Styled.Button onClick={handleClick}>{text}</Styled.Button>;
 };
 
 export default Button;

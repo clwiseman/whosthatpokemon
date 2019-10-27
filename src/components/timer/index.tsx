@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Icon from "../icon";
+import * as Styled from "./styles";
 
 interface TimerProps {
   /* How long in seconds the timer lasts.
@@ -6,7 +8,7 @@ interface TimerProps {
   seconds?: number;
 }
 
-const Timer: React.FC<TimerProps> = ({seconds}) => {
+const Timer: React.FC<TimerProps> = ({ seconds }) => {
   const [duration, setDuration] = useState(seconds ? seconds : 60);
 
   useEffect(() => {
@@ -14,13 +16,13 @@ const Timer: React.FC<TimerProps> = ({seconds}) => {
       setDuration(duration - 1);
     }, 1000);
     if (duration === 0) clearInterval(countdown);
-    return(() => clearInterval(countdown));
+    return () => clearInterval(countdown);
   }, [duration]);
 
   const formatTime = () => {
-    const hours   = Math.floor(duration / 3600);
-    const minutes = Math.floor((duration - (hours * 3600)) / 60);
-    const seconds = duration - (hours * 3600) - (minutes * 60);
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration - hours * 3600) / 60);
+    const seconds = duration - hours * 3600 - minutes * 60;
 
     let displayHours = hours > 0 ? hours.toString() : "00";
     let displayMinutes = minutes > 0 ? minutes.toString() : "00";
@@ -36,11 +38,14 @@ const Timer: React.FC<TimerProps> = ({seconds}) => {
       displaySeconds = "0" + seconds;
     }
     return `${displayHours}:${displayMinutes}:${displaySeconds}`;
-  }
+  };
 
   return (
-    <div>Time Remaining: {formatTime()}</div>
+    <Styled.Timer>
+      <Icon icon="stopwatch" dark />
+      <Styled.Countdown>{formatTime()}</Styled.Countdown>
+    </Styled.Timer>
   );
-}
+};
 
 export default Timer;
