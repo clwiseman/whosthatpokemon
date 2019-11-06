@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC|DM+Sans&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC|DM+Sans:400,700|B612+Mono&display=swap');
   
   *,
   *::after,
@@ -17,8 +17,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    min-height: 100vh;
     box-sizing: border-box;
     font-family: "DM Sans", sans-serif;
+    background-image: url(./images/pokeball.svg);
+    background-size: cover;
+    background-repeat: repeat;
   }
 
   button:focus,

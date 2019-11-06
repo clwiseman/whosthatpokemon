@@ -93,7 +93,14 @@ const Canvas = () => {
     <Styled.DrawPad>
       <Styled.TopBar>
         {gameStarted ? (
-          <Timer />
+          <>
+            <Styled.TopBarText>
+              Draw:
+              <Styled.TopBarBold>Bulbasaur</Styled.TopBarBold>
+            </Styled.TopBarText>
+            <Timer />
+            <Button text={"End Game"} handleClick={handleGameStart} />
+          </>
         ) : (
           <Button text={"Start Game"} handleClick={handleGameStart} />
         )}
@@ -101,7 +108,7 @@ const Canvas = () => {
       <Styled.Canvas
         ref={canvasRef}
         width="800"
-        height="500"
+        height="450"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseOut={handleMouseOut}

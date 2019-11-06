@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Icon = styled.svg<{ dark?: boolean }>`
-  width: 4rem;
-  height: 4rem;
-  color: ${props => (props.dark ? props.theme.black : props.theme.white)};
+  width: 3.5rem;
+  height: 3.5rem;
+  fill: ${props => (props.dark ? props.theme.black : props.theme.white)};
 `;
