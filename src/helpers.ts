@@ -14,3 +14,11 @@ export function find<T extends { id: number }>(
 export function randomPokemon(): number {
   return Math.floor(Math.random() * (809 - 1 + 1)) + 1;
 }
+
+/**
+ * Returns the zero-padded string of the Pokedex ID.
+ * @param pokedexId
+ */
+export function imageFileName(pokedexId: number) {
+  return pokedexId.toString().padStart(3, '0');
+}
