@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Button from "../button";
 import Timer from "../timer";
 import * as Styled from "./styles";
-import { gameStatusTypes } from "../../App";
+import { gameStatusTypes, PokemonType } from "../../App";
 
 enum Action {
   Draw,
@@ -13,12 +13,14 @@ interface CanvasProps {
   handleGameStart: () => void;
   handleGameEnd: () => void;
   gameStatus: gameStatusTypes;
+  pokemon: PokemonType;
 }
 
 const Canvas: React.FC<CanvasProps> = ({
   handleGameStart,
   handleGameEnd,
-  gameStatus
+  gameStatus,
+  pokemon
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
@@ -102,7 +104,7 @@ const Canvas: React.FC<CanvasProps> = ({
           <>
             <Styled.TopBarText>
               Draw:
-              <Styled.TopBarBold>Bulbasaur</Styled.TopBarBold>
+              <Styled.TopBarBold>{pokemon.name.english}</Styled.TopBarBold>
             </Styled.TopBarText>
             <Timer />
             <Button text={"End Game"} handleClick={handleGameEnd} />
