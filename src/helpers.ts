@@ -57,3 +57,11 @@ export function randomPokemon(generation: number = 1): number {
 
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+/**
+ * Returns the zero-padded string of the Pokedex ID.
+ * @param pokedexId
+ */
+export function imageFileName(pokedexId: number) {
+  return pokedexId.toString().padStart(3, '0');
+}
