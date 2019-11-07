@@ -2,15 +2,25 @@ import React, { useRef, useState } from "react";
 import Button from "../button";
 import Timer from "../timer";
 import * as Styled from "./styles";
+import { gameStatusTypes } from "../../App";
 
 enum Action {
   Draw,
   Erase
 }
 
-const Canvas = () => {
+interface CanvasProps {
+  handleGameStart: () => void;
+  handleGameEnd: () => void;
+  gameStatus: gameStatusTypes;
+}
+
+const Canvas: React.FC<CanvasProps> = ({
+  handleGameStart,
+  handleGameEnd,
+  gameStatus
+}) => {
   const [isDrawing, setIsDrawing] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
   const [action, setAction] = useState(Action.Draw);
 
@@ -70,10 +80,6 @@ const Canvas = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  const handleGameStart = () => {
-    setGameStarted(true);
-  };
-
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDrawing(true);
     const newLocation = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
@@ -92,14 +98,14 @@ const Canvas = () => {
   return (
     <Styled.DrawPad>
       <Styled.TopBar>
-        {gameStarted ? (
+        {gameStatus === gameStatusTypes.InProgress ? (
           <>
             <Styled.TopBarText>
               Draw:
               <Styled.TopBarBold>Bulbasaur</Styled.TopBarBold>
             </Styled.TopBarText>
             <Timer />
-            <Button text={"End Game"} handleClick={handleGameStart} />
+            <Button text={"End Game"} handleClick={handleGameEnd} />
           </>
         ) : (
           <Button text={"Start Game"} handleClick={handleGameStart} />
