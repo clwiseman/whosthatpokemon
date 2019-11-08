@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { GlobalStyle, theme } from "./globalStyles";
 import Header from "./components/header";
 import Canvas from "./components/canvas";
+import EndScreen from "./components/endScreen";
 import { ThemeProvider } from "styled-components";
-import * as Styled from "./Appstyles";
 
 export enum gameStatusTypes {
   Ready,
@@ -30,14 +30,16 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <>
         <GlobalStyle />
-        <Styled.Layout>
-          <Header />
+        <Header />
+        {gameStatus === gameStatusTypes.Ended ? (
+          <EndScreen handleGameRestart={handleGameRestart} />
+        ) : (
           <Canvas
             handleGameStart={handleGameStart}
             handleGameEnd={handleGameEnd}
             gameStatus={gameStatus}
           />
-        </Styled.Layout>
+        )}
       </>
     </ThemeProvider>
   );

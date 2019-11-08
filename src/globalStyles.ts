@@ -1,5 +1,15 @@
 import { createGlobalStyle } from "styled-components";
 
+export const theme = {
+  yellow: "#FFCB05",
+  blue: "#3D7DCA",
+  navyblue: "#003A70",
+  red: "#EE1515",
+  white: "#f0f0f0",
+  black: "#222224",
+  greydark: "#2D3047"
+};
+
 export const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC|DM+Sans:400,700|B612+Mono&display=swap');
   
@@ -20,9 +30,7 @@ export const GlobalStyle = createGlobalStyle`
     min-height: 100vh;
     box-sizing: border-box;
     font-family: "DM Sans", sans-serif;
-    background-image: url(./images/pokeball.svg);
-    background-size: cover;
-    background-repeat: repeat;
+    background-color: ${theme.white};
   }
 
   button:focus,
@@ -34,13 +42,3 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "Bowlby One SC", serif;
   }
 `;
-
-export const theme = {
-  yellow: "#FFCB05",
-  blue: "#3D7DCA",
-  navyblue: "#003A70",
-  red: "#EE1515",
-  white: "#f0f0f0",
-  black: "#222224",
-  greydark: "#2D3047"
-};

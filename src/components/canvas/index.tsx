@@ -113,7 +113,7 @@ const Canvas: React.FC<CanvasProps> = ({
       </Styled.TopBar>
       <Styled.Canvas
         ref={canvasRef}
-        width="800"
+        width="600"
         height="450"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
