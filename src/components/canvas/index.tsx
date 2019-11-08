@@ -3,6 +3,7 @@ import Button from "../button";
 import Timer from "../timer";
 import * as Styled from "./styles";
 import { gameStatusTypes, PokemonType } from "../../App";
+import { ActionTypes } from "react-select";
 
 enum Action {
   Draw,
@@ -25,6 +26,7 @@ const Canvas: React.FC<CanvasProps> = ({
   const [isDrawing, setIsDrawing] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
   const [action, setAction] = useState(Action.Draw);
+  const [listPokedex, setListPokedex] = useState([{ value: 0, label: "" }]);
 
   const canvasRef = useRef(null);
 
@@ -66,7 +68,23 @@ const Canvas: React.FC<CanvasProps> = ({
     return null;
   };
 
+  const options = [
+    { value: 1, label: "Gen 1" },
+    { value: 2, label: "Gen 2" },
+    { value: 3, label: "Gen 3" },
+    { value: 4, label: "Gen 4" },
+    { value: 5, label: "Gen 5" },
+    { value: 6, label: "Gen 6" },
+    { value: 7, label: "Gen 7" }
+  ];
+
   // Event Handlers
+
+  const handleChange = (option: any) => {
+    setListPokedex(option.value);
+    console.log(listPokedex);
+  };
+
   const handleCanvasDraw = () => {
     setAction(Action.Draw);
   };
@@ -110,7 +128,16 @@ const Canvas: React.FC<CanvasProps> = ({
             <Button text={"End Game"} handleClick={handleGameEnd} />
           </>
         ) : (
-          <Button text={"Start Game"} handleClick={handleGameStart} />
+          <>
+            <Styled.SelectMultiple
+              name="Pokedex Selector"
+              options={options}
+              onChange={handleChange}
+              isMulti
+              closeMenuOnSelect={false}
+            />
+            <Button text={"Start Game"} handleClick={handleGameStart} />
+          </>
         )}
       </Styled.TopBar>
       <Styled.Canvas
@@ -123,9 +150,9 @@ const Canvas: React.FC<CanvasProps> = ({
         onMouseUp={handleMouseUp}
       ></Styled.Canvas>
       <Styled.BottomBar>
-        <Button icon="pencil" handleClick={handleCanvasDraw}></Button>
-        <Button icon="eraser" handleClick={handleCanvasErase}></Button>
-        <Button icon="trash" handleClick={handleCanvasClear}></Button>
+        <Button icon="pencil" handleClick={handleCanvasDraw} small></Button>
+        <Button icon="eraser" handleClick={handleCanvasErase} small></Button>
+        <Button icon="trash" handleClick={handleCanvasClear} small></Button>
       </Styled.BottomBar>
     </Styled.DrawPad>
   );

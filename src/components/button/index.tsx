@@ -6,13 +6,20 @@ interface ButtonProps {
   icon?: string;
   text?: string;
   dark?: boolean;
+  small?: boolean;
   handleClick: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ icon, text, dark, handleClick }) => {
+const Button: React.FC<ButtonProps> = ({
+  icon,
+  text,
+  dark,
+  small,
+  handleClick
+}) => {
   if (icon) {
     return (
-      <Styled.Button onClick={handleClick}>
+      <Styled.Button onClick={handleClick} small={small}>
         <Icon icon={icon} dark={dark} />
       </Styled.Button>
     );

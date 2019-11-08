@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
+export const Button = styled.button<{ small?: boolean }>`
   background-color: ${props => props.theme.navyblue};
   color: ${props => props.theme.white};
   margin: 2rem 2rem;
-  width: 18rem;
+  width: ${props => (props.small ? "12rem" : "18rem")};
   height: 4.5rem;
   border-radius: 0.5rem;
   font-size: 2rem;

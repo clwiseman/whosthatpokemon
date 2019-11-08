@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Select from "react-select";
 
 export const TopBar = styled.div`
   display: flex;
@@ -36,4 +37,10 @@ export const Canvas = styled.canvas`
   margin: 0 auto;
   border: 1px solid black;
   background-color: white;
+`;
+
+export const SelectMultiple = styled(Select)`
+  width: 36rem;
+  height: 4.5rem;
+  font-size: 2rem;
 `;
