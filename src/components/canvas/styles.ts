@@ -42,7 +42,9 @@ export const Canvas = styled.canvas<{ drawState?: boolean }>`
   border: 1px solid black;
   background-color: white;
   cursor: ${props =>
-    props.drawState ? `url(${pencil}), auto` : `url(${eraser}), auto`};
+    props.drawState
+      ? `url(${pencil}) 0 20, auto`
+      : `url(${eraser}) 6 18, auto`};
 `;
 
 export const SelectMultiple = styled(Select)`
