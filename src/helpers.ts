@@ -63,5 +63,5 @@ export function randomPokemon(generation: number = 1): number {
  * @param pokedexId
  */
 export function imageFileName(pokedexId: number) {
-  return pokedexId.toString().padStart(3, '0');
+  return `${pokedexId.toString().padStart(3, '0')}.png`;
 }
