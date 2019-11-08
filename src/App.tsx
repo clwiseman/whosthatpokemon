@@ -83,7 +83,7 @@ const App: React.FC = () => {
         <GlobalStyle />
         <Header />
         {gameStatus === gameStatusTypes.Ended ? (
-          <EndScreen handleGameRestart={handleGameRestart} />
+          <EndScreen handleGameRestart={handleGameRestart} pokemon={pokemon} />
         ) : (
           <Canvas
             pokemon={pokemon}
