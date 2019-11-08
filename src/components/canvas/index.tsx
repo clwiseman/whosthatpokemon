@@ -3,7 +3,6 @@ import Button from "../button";
 import Timer from "../timer";
 import * as Styled from "./styles";
 import { gameStatusTypes, PokemonType } from "../../App";
-import { ActionTypes } from "react-select";
 
 enum Action {
   Draw,
@@ -11,7 +10,7 @@ enum Action {
 }
 
 interface CanvasProps {
-  handleGameStart: () => void;
+  handleGameStart: (pokedex: number) => void;
   handleGameEnd: () => void;
   gameStatus: gameStatusTypes;
   pokemon: PokemonType;
@@ -26,7 +25,7 @@ const Canvas: React.FC<CanvasProps> = ({
   const [isDrawing, setIsDrawing] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
   const [action, setAction] = useState(Action.Draw);
-  const [listPokedex, setListPokedex] = useState([{ value: 0, label: "" }]);
+  const [selectedDex, setSelectedDex] = useState({ value: 0, label: "Choose Pokedex..." });
 
   const canvasRef = useRef(null);
 
@@ -79,10 +78,8 @@ const Canvas: React.FC<CanvasProps> = ({
   ];
 
   // Event Handlers
-
-  const handleChange = (option: any) => {
-    setListPokedex(option.value);
-    console.log(listPokedex);
+  const handleChange = (option: { value: number, label: string }) => {
+    setSelectedDex(option);
   };
 
   const handleCanvasDraw = () => {
@@ -125,18 +122,19 @@ const Canvas: React.FC<CanvasProps> = ({
               <Styled.TopBarBold>{pokemon.name.english}</Styled.TopBarBold>
             </Styled.TopBarText>
             <Timer />
-            <Button text={"End Game"} handleClick={handleGameEnd} />
+            <Button text="End Game" handleClick={handleGameEnd} />
           </>
         ) : (
           <>
             <Styled.SelectMultiple
               name="Pokedex Selector"
+              value={selectedDex}
               options={options}
               onChange={handleChange}
-              isMulti
               closeMenuOnSelect={false}
+              placeholder="Choose Pokedex..."
             />
-            <Button text={"Start Game"} handleClick={handleGameStart} />
+            <Button text="Start Game" handleClick={() => handleGameStart(selectedDex.value)} />
           </>
         )}
       </Styled.TopBar>
