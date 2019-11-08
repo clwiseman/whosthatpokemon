@@ -1,16 +1,36 @@
 import React, { useState } from "react";
 import * as Styled from "./styles";
 import Button from "../button";
+import { PokemonType } from "../../App";
 
 interface EndScreenProps {
+  pokemon: PokemonType;
   handleGameRestart: () => void;
 }
 
-const EndScreen: React.FC<EndScreenProps> = ({ handleGameRestart }) => {
+const EndScreen: React.FC<EndScreenProps> = ({
+  pokemon,
+  handleGameRestart
+}) => {
   const [guessing, setGuessing] = useState(true);
+  const [guessRight, setGuessRight] = useState(true);
+  const [answer, setAnswer] = useState("");
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnswer(e.target.value);
+  };
+
+  const comparePokemon = (answer: string, pokemonName: string) => {
+    if (answer.toLowerCase() === pokemonName.toLowerCase()) {
+      setGuessRight(true);
+    } else {
+      setGuessRight(false);
+    }
+  };
 
   const handleAnswerSubmit = () => {
     setGuessing(false);
+    comparePokemon(answer, pokemon.name.english);
   };
 
   return (
@@ -18,14 +38,19 @@ const EndScreen: React.FC<EndScreenProps> = ({ handleGameRestart }) => {
       {guessing ? (
         <Styled.TopBar>
           <Styled.TopBarText>Who's That Pokemon?</Styled.TopBarText>
-          <Styled.Input />
+          <Styled.Input
+            type="text"
+            value={answer}
+            onChange={handleInputChange}
+          />
           <Button text="Submit" handleClick={handleAnswerSubmit} />
         </Styled.TopBar>
       ) : (
         <Styled.TopBar>
           <Styled.TopBarTextReveal>
+            {guessRight ? `You're Right! ` : `No way! `}
             It's
-            <Styled.TopBarBold>Bulbasaur</Styled.TopBarBold>!
+            <Styled.TopBarBold>{pokemon.name.english}</Styled.TopBarBold>!
           </Styled.TopBarTextReveal>
         </Styled.TopBar>
       )}
