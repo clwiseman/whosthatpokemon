@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   if (icon) {
     return (
-      <Styled.Button onClick={handleClick} small={small}>
+      <Styled.Button onClick={handleClick} small>
         <Icon icon={icon} dark={dark} />
       </Styled.Button>
     );
