@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Select from "react-select";
-import Action from "./index";
 
 const pencil = "pencil.svg";
 const eraser = "eraser.svg";

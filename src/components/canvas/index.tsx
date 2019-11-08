@@ -14,11 +14,13 @@ interface CanvasProps {
   handleGameEnd: () => void;
   gameStatus: gameStatusTypes;
   pokemon: PokemonType;
+  handleImageCopy: (canvas: CanvasImageSource | null) => void;
 }
 
 const Canvas: React.FC<CanvasProps> = ({
   handleGameStart,
   handleGameEnd,
+  handleImageCopy,
   gameStatus,
   pokemon
 }) => {
@@ -57,6 +59,9 @@ const Canvas: React.FC<CanvasProps> = ({
     ctx.stroke();
     const newLocation = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
     setLocations([...locations, newLocation]);
+    if (canvasRef !== null && canvasRef.current !== null) {
+      handleImageCopy(canvasRef.current);
+    }
   };
 
   const getCanvasContext = () => {
