@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import Select from "react-select";
+import Action from "./index";
+
+const pencil = "pencil.svg";
+const eraser = "eraser.svg";
 
 export const TopBar = styled.div`
   display: flex;
@@ -33,10 +37,12 @@ export const BottomBar = styled.div`
   justify-content: center;
 `;
 
-export const Canvas = styled.canvas`
+export const Canvas = styled.canvas<{ drawState?: boolean }>`
   margin: 0 auto;
   border: 1px solid black;
   background-color: white;
+  cursor: ${props =>
+    props.drawState ? `url(${pencil}), auto` : `url(${eraser}), auto`};
 `;
 
 export const SelectMultiple = styled(Select)`

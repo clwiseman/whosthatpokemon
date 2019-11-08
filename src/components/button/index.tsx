@@ -7,6 +7,7 @@ interface ButtonProps {
   text?: string;
   dark?: boolean;
   small?: boolean;
+  drawState?: boolean;
   handleClick: () => void;
 }
 
@@ -14,12 +15,13 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   text,
   dark,
+  handleClick,
   small,
-  handleClick
+  drawState
 }) => {
   if (icon) {
     return (
-      <Styled.Button onClick={handleClick} small>
+      <Styled.Button onClick={handleClick} drawState={drawState} small={small}>
         <Icon icon={icon} dark={dark} />
       </Styled.Button>
     );
