@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Styled from "./styles";
 import Button from "../button";
 import { PokemonType } from "../../App";
@@ -7,17 +7,21 @@ import { imageFileName } from "../../helpers";
 interface EndScreenProps {
   pokemon: PokemonType;
   handleGameRestart: () => void;
+  drawnImage: CanvasImageSource | null;
 }
 
 const EndScreen: React.FC<EndScreenProps> = ({
   pokemon,
-  handleGameRestart
+  handleGameRestart,
+  drawnImage
 }) => {
   const [guessing, setGuessing] = useState(true);
   const [guessRight, setGuessRight] = useState(true);
   const [answer, setAnswer] = useState("");
   const fileName = imageFileName(pokemon.id);
   const imagePath = require(`../../data/images/${fileName}`);
+
+  const canvasRef = useRef(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
@@ -31,6 +35,24 @@ const EndScreen: React.FC<EndScreenProps> = ({
     setGuessing(false);
     comparePokemon(answer, pokemon.name.english);
   };
+
+  const getCanvasContext = () => {
+    const canvas = canvasRef.current as HTMLCanvasElement | null;
+    if (canvas !== null) {
+      const ctx = canvas.getContext("2d");
+      if (ctx !== null) {
+        return ctx;
+      }
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    const ctx = getCanvasContext();
+    if (ctx !== null && drawnImage !== null) {
+      ctx.drawImage(drawnImage, 0, 0);
+    }
+  }, [drawnImage]);
 
   return (
     <>
@@ -54,7 +76,7 @@ const EndScreen: React.FC<EndScreenProps> = ({
         </Styled.TopBar>
       )}
       <Styled.Container>
-        <Styled.Canvas width="600" height="450" />
+        <Styled.Canvas ref={canvasRef} width="600" height="450" />
         <Styled.ImageContainer>
           {!guessing && (
             <Styled.Image

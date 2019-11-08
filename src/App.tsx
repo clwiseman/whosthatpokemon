@@ -53,6 +53,7 @@ const App: React.FC = () => {
     }
   });
   const [pokedexId, setPokedexId] = useState(0);
+  const [drawnImage, setDrawnImage] = useState();
 
   // Retrieve the Pokemon info
   useEffect(() => {
@@ -84,13 +85,18 @@ const App: React.FC = () => {
         <GlobalStyle />
         <Header />
         {gameStatus === gameStatusTypes.Ended ? (
-          <EndScreen handleGameRestart={handleGameRestart} pokemon={pokemon} />
+          <EndScreen
+            handleGameRestart={handleGameRestart}
+            pokemon={pokemon}
+            drawnImage={drawnImage}
+          />
         ) : (
           <Canvas
             pokemon={pokemon}
             handleGameStart={handleGameStart}
             handleGameEnd={handleGameEnd}
             gameStatus={gameStatus}
+            handleImageCopy={setDrawnImage}
           />
         )}
       </>
