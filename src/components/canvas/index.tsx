@@ -4,7 +4,7 @@ import Timer from "../timer";
 import * as Styled from "./styles";
 import { gameStatusTypes, PokemonType } from "../../App";
 
-enum Action {
+export enum Action {
   Draw,
   Erase
 }
@@ -76,6 +76,7 @@ const Canvas: React.FC<CanvasProps> = ({
   };
 
   const handleCanvasClear = () => {
+    setAction(Action.Draw);
     const context = getCanvasContext();
     const canvas = canvasRef.current as HTMLCanvasElement | null;
     if (context !== null && canvas !== null)
@@ -121,10 +122,19 @@ const Canvas: React.FC<CanvasProps> = ({
         onMouseMove={handleMouseMove}
         onMouseOut={handleMouseOut}
         onMouseUp={handleMouseUp}
+        drawState={action === Action.Draw}
       ></Styled.Canvas>
       <Styled.BottomBar>
-        <Button icon="pencil" handleClick={handleCanvasDraw}></Button>
-        <Button icon="eraser" handleClick={handleCanvasErase}></Button>
+        <Button
+          icon="pencil"
+          handleClick={handleCanvasDraw}
+          drawState={action === Action.Draw}
+        ></Button>
+        <Button
+          icon="eraser"
+          handleClick={handleCanvasErase}
+          drawState={action === Action.Erase}
+        ></Button>
         <Button icon="trash" handleClick={handleCanvasClear}></Button>
       </Styled.BottomBar>
     </Styled.DrawPad>

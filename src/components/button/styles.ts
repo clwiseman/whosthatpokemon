@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
-  background-color: ${props => props.theme.navyblue};
+export const Button = styled.button<{ drawState?: boolean }>`
+  background-color: ${props =>
+    props.drawState ? props.theme.blue : props.theme.navyblue};
   color: ${props => props.theme.white};
   margin: 2rem 2rem;
   width: 18rem;
@@ -9,6 +10,7 @@ export const Button = styled.button`
   border-radius: 0.5rem;
   font-size: 2rem;
   font-family: inherit;
+  cursor: pointer;
 
   :hover {
     transform: translateY(-2px);
