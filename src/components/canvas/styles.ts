@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Select from "react-select";
 import Action from "./index";
 
 const pencil = "pencil.svg";
@@ -41,5 +42,13 @@ export const Canvas = styled.canvas<{ drawState?: boolean }>`
   border: 1px solid black;
   background-color: white;
   cursor: ${props =>
-    props.drawState ? `url(${pencil}), auto` : `url(${eraser}), auto`};
+    props.drawState
+      ? `url(${pencil}) 0 20, auto`
+      : `url(${eraser}) 6 18, auto`};
+`;
+
+export const SelectMultiple = styled(Select)`
+  width: 36rem;
+  height: 4.5rem;
+  font-size: 2rem;
 `;

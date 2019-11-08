@@ -52,7 +52,7 @@ const App: React.FC = () => {
       Speed: 0
     }
   });
-  const [pokedexId, setPokedexId] = useState(randomPokemon());
+  const [pokedexId, setPokedexId] = useState(0);
 
   // Retrieve the Pokemon info
   useEffect(() => {
@@ -64,7 +64,8 @@ const App: React.FC = () => {
     }
   }, [pokedexId]);
 
-  const handleGameStart = () => {
+  const handleGameStart = (pokedex: number) => {
+    setPokedexId(randomPokemon(pokedex));
     setGameStatus(gameStatusTypes.InProgress);
   };
 

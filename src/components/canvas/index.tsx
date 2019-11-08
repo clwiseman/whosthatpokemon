@@ -10,7 +10,7 @@ export enum Action {
 }
 
 interface CanvasProps {
-  handleGameStart: () => void;
+  handleGameStart: (pokedex: number) => void;
   handleGameEnd: () => void;
   gameStatus: gameStatusTypes;
   pokemon: PokemonType;
@@ -25,6 +25,10 @@ const Canvas: React.FC<CanvasProps> = ({
   const [isDrawing, setIsDrawing] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
   const [action, setAction] = useState(Action.Draw);
+  const [selectedDex, setSelectedDex] = useState({
+    value: 0,
+    label: "Choose Pokedex..."
+  });
 
   const canvasRef = useRef(null);
 
@@ -66,7 +70,21 @@ const Canvas: React.FC<CanvasProps> = ({
     return null;
   };
 
+  const options = [
+    { value: 1, label: "Gen 1" },
+    { value: 2, label: "Gen 2" },
+    { value: 3, label: "Gen 3" },
+    { value: 4, label: "Gen 4" },
+    { value: 5, label: "Gen 5" },
+    { value: 6, label: "Gen 6" },
+    { value: 7, label: "Gen 7" }
+  ];
+
   // Event Handlers
+  const handleChange = (option: { value: number; label: string }) => {
+    setSelectedDex(option);
+  };
+
   const handleCanvasDraw = () => {
     setAction(Action.Draw);
   };
@@ -108,10 +126,23 @@ const Canvas: React.FC<CanvasProps> = ({
               <Styled.TopBarBold>{pokemon.name.english}</Styled.TopBarBold>
             </Styled.TopBarText>
             <Timer />
-            <Button text={"End Game"} handleClick={handleGameEnd} />
+            <Button text="End Game" handleClick={handleGameEnd} />
           </>
         ) : (
-          <Button text={"Start Game"} handleClick={handleGameStart} />
+          <>
+            <Styled.SelectMultiple
+              name="Pokedex Selector"
+              value={selectedDex}
+              options={options}
+              onChange={handleChange}
+              closeMenuOnSelect={false}
+              placeholder="Choose Pokedex..."
+            />
+            <Button
+              text="Start Game"
+              handleClick={() => handleGameStart(selectedDex.value)}
+            />
+          </>
         )}
       </Styled.TopBar>
       <Styled.Canvas
@@ -129,13 +160,15 @@ const Canvas: React.FC<CanvasProps> = ({
           icon="pencil"
           handleClick={handleCanvasDraw}
           drawState={action === Action.Draw}
+          small
         ></Button>
         <Button
           icon="eraser"
           handleClick={handleCanvasErase}
           drawState={action === Action.Erase}
+          small
         ></Button>
-        <Button icon="trash" handleClick={handleCanvasClear}></Button>
+        <Button icon="trash" handleClick={handleCanvasClear} small></Button>
       </Styled.BottomBar>
     </Styled.DrawPad>
   );
