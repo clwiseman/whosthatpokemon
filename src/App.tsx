@@ -4,7 +4,6 @@ import { GlobalStyle, theme } from "./globalStyles";
 import Header from "./components/header";
 import Canvas from "./components/canvas";
 import EndScreen from "./components/endScreen";
-import { ThemeProvider } from "styled-components";
 import { find, randomPokemon } from "./helpers";
 import pokedex from "./data/pokedex.json";
 
@@ -21,7 +20,7 @@ export interface PokemonType {
     japanese: string;
     chinese: string;
     french: string;
-  }
+  };
   type: string[];
   base: {
     HP: number;
@@ -30,7 +29,7 @@ export interface PokemonType {
     "Sp. Attack": number;
     "Sp. Defense": number;
     Speed: number;
-  }
+  };
 }
 
 const App: React.FC = () => {
@@ -53,9 +52,7 @@ const App: React.FC = () => {
       Speed: 0
     }
   });
-  const [pokedexId, setPokedexId] = useState(
-    randomPokemon()
-  );
+  const [pokedexId, setPokedexId] = useState(randomPokemon());
 
   // Retrieve the Pokemon info
   useEffect(() => {
