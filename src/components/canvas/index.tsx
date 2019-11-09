@@ -130,7 +130,7 @@ const Canvas: React.FC<CanvasProps> = ({
               Draw:
               <Styled.TopBarBold>{pokemon.name.english}</Styled.TopBarBold>
             </Styled.TopBarText>
-            <Timer />
+            <Timer handleGameEnd={handleGameEnd} />
             <Button text="End Game" handleClick={handleGameEnd} />
           </>
         ) : (

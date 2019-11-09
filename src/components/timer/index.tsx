@@ -6,18 +6,22 @@ interface TimerProps {
   /* How long in seconds the timer lasts.
      Defaults to 60 seconds */
   seconds?: number;
+  handleGameEnd: () => void;
 }
 
-const Timer: React.FC<TimerProps> = ({ seconds }) => {
+const Timer: React.FC<TimerProps> = ({ seconds, handleGameEnd }) => {
   const [duration, setDuration] = useState(seconds ? seconds : 60);
 
   useEffect(() => {
     const countdown = setInterval(() => {
       setDuration(duration - 1);
     }, 1000);
-    if (duration === 0) clearInterval(countdown);
+    if (duration === 0) {
+      clearInterval(countdown);
+      handleGameEnd();
+    }
     return () => clearInterval(countdown);
-  }, [duration]);
+  }, [duration, handleGameEnd]);
 
   const formatTime = () => {
     const hours = Math.floor(duration / 3600);
