@@ -53,7 +53,7 @@ const App: React.FC = () => {
     }
   });
   const [pokedexId, setPokedexId] = useState(0);
-  const [drawnImage, setDrawnImage] = useState();
+  const [drawnImage, setDrawnImage] = useState<CanvasImageSource | null>(null);
 
   // Retrieve the Pokemon info
   useEffect(() => {

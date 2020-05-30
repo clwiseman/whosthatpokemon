@@ -60,7 +60,7 @@ const Canvas: React.FC<CanvasProps> = ({
     const newLocation = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
     setLocations([...locations, newLocation]);
     if (canvasRef !== null && canvasRef.current !== null) {
-      handleImageCopy(canvasRef.current);
+      handleImageCopy(canvasRef.current!);
     }
   };
 
