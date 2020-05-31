@@ -1,23 +1,12 @@
 import React, { useRef, useState } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
 import Button from "../button";
 import Timer from "../timer";
 import * as Styled from "./styles";
 import { gameStatusTypes, PokemonType } from "../../App";
 
-const GENERATIONS = gql`
-  {
-    generations {
-      id
-      name
-    }
-  }
-`;
-
 export enum Action {
   Draw,
-  Erase,
+  Erase
 }
 
 interface CanvasProps {
@@ -33,17 +22,14 @@ const Canvas: React.FC<CanvasProps> = ({
   handleGameEnd,
   handleImageCopy,
   gameStatus,
-  pokemon,
+  pokemon
 }) => {
-  const { loading: genLoading, error: genError, data: genData } = useQuery(
-    GENERATIONS
-  );
   const [isDrawing, setIsDrawing] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
   const [action, setAction] = useState(Action.Draw);
   const [selectedDex, setSelectedDex] = useState({
     value: 0,
-    label: "Choose Pokedex...",
+    label: "Choose Pokedex..."
   });
 
   const canvasRef = useRef(null);
@@ -89,15 +75,15 @@ const Canvas: React.FC<CanvasProps> = ({
     return null;
   };
 
-  let options;
-
-  if (genData !== undefined) {
-    options = genData.generations.map(
-      ({ id, name }: { id: number; name: string }) => {
-        return { value: id, label: name };
-      }
-    );
-  }
+  const options = [
+    { value: 1, label: "Gen 1" },
+    { value: 2, label: "Gen 2" },
+    { value: 3, label: "Gen 3" },
+    { value: 4, label: "Gen 4" },
+    { value: 5, label: "Gen 5" },
+    { value: 6, label: "Gen 6" },
+    { value: 7, label: "Gen 7" }
+  ];
 
   // Event Handlers
   const handleChange = (option: { value: number; label: string }) => {
@@ -142,31 +128,25 @@ const Canvas: React.FC<CanvasProps> = ({
           <>
             <Styled.TopBarText>
               Draw:
-              <Styled.TopBarBold>{pokemon.name}</Styled.TopBarBold>
+              <Styled.TopBarBold>{pokemon.name.english}</Styled.TopBarBold>
             </Styled.TopBarText>
             <Timer handleGameEnd={handleGameEnd} />
             <Button text="End Game" handleClick={handleGameEnd} />
           </>
         ) : (
           <>
-            {genLoading && <div>Loading...</div>}
-            {genError && <div>Whoops! Something went wrong.</div>}
-            {genData && (
-              <>
-                <Styled.SelectMultiple
-                  name="Pokedex Selector"
-                  value={selectedDex}
-                  options={options}
-                  onChange={handleChange}
-                  closeMenuOnSelect={false}
-                  placeholder="Choose Pokedex..."
-                />
-                <Button
-                  text="Start Game"
-                  handleClick={() => handleGameStart(selectedDex.value)}
-                />
-              </>
-            )}
+            <Styled.SelectMultiple
+              name="Pokedex Selector"
+              value={selectedDex}
+              options={options}
+              onChange={handleChange}
+              closeMenuOnSelect={false}
+              placeholder="Choose Pokedex..."
+            />
+            <Button
+              text="Start Game"
+              handleClick={() => handleGameStart(selectedDex.value)}
+            />
           </>
         )}
       </Styled.TopBar>
