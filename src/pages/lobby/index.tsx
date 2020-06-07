@@ -23,7 +23,7 @@ const Lobby: React.FC = () => {
     variables: { joinID }
   });
 
-  if (loading || error || data) {
+  if (loading || error || !data) {
      return <div>Loading....</div>;
   }
 

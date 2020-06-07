@@ -30,7 +30,7 @@ const App: React.FC = () => (
         <img alt="random pokemon" src={`/pokemons/${randomPokemonImage()}`}/>
         <PokemonApp />
         <Switch>
-          <Route path="/session/joinID">
+          <Route path="/session/:joinID">
             <Lobby />
           </Route>
         </Switch>
