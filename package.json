@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
     "@types/jest": "24.0.20",
     "@types/node": "12.11.7",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.3",
     "@types/react-select": "^3.0.13",
     "@types/styled-components": "^5.1.0",
+    "apollo-boost": "^0.4.9",
+    "graphql": "^15.1.0",
     "prettier": "^1.19.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -21,7 +24,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "fetch:schema": "apollo schema:download --endpoint https://whos-that-pokemon-api.herokuapp.com/v1/graphql --header 'X-Hasura-Admin-Secret: $REACT_APP_HASURA_SECRET'",
+    "generate:types": "graphql-codegen --config graphql-codegen.yml"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,5 +42,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.15.1",
+    "@graphql-codegen/typescript": "^1.15.1"
   }
 }

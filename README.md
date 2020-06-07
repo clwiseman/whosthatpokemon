@@ -37,8 +37,19 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+### Generate the schema.json from the heroku API
+
+If you need to update the `schema.json` file with new API schema, you can run `npm run fetch:schema` to update that file.
+
+You will need an environment variable called REACT_APP_HASURA_SECRET in your local terminal to run this command successfully.
+
+### Generate the TypeScript types
+
+To update the TypeScript types if they happen to be out of date, use the command `npm run generate:types` to regenerate the types from the `schema.json` file. You'll need to make sure it is up to date.
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
