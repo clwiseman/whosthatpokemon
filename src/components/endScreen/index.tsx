@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+
 import * as Styled from "./styles";
 import Button from "../button";
-import { PokemonType } from "../../App";
 import { imageFileName } from "../../helpers";
+import { Pokemon } from "../../types/graphql-types";
 
 interface EndScreenProps {
-  pokemon: PokemonType;
+  pokemon?: Pokemon;
   handleGameRestart: () => void;
   drawnImage: CanvasImageSource | null;
 }
@@ -18,8 +19,6 @@ const EndScreen: React.FC<EndScreenProps> = ({
   const [guessing, setGuessing] = useState(true);
   const [guessRight, setGuessRight] = useState(true);
   const [answer, setAnswer] = useState("");
-  const fileName = imageFileName(pokemon.id);
-  const imagePath = require(`../../data/images/${fileName}`);
 
   const canvasRef = useRef(null);
 
@@ -27,13 +26,13 @@ const EndScreen: React.FC<EndScreenProps> = ({
     setAnswer(e.target.value);
   };
 
-  const comparePokemon = (answer: string, pokemonName: string) => {
-    setGuessRight(answer.toLowerCase() === pokemonName.toLowerCase());
+  const comparePokemon = (answer: string, pokemonName?: string) => {
+    setGuessRight(answer.toLowerCase() === pokemonName?.toLowerCase());
   };
 
   const handleAnswerSubmit = () => {
     setGuessing(false);
-    comparePokemon(answer, pokemon.name.english);
+    comparePokemon(answer, pokemon?.name);
   };
 
   const getCanvasContext = () => {
@@ -54,6 +53,13 @@ const EndScreen: React.FC<EndScreenProps> = ({
     }
   }, [drawnImage]);
 
+  if (!pokemon || !pokemon.id) {
+    return <div>Invalid pokémon</div>;
+  }
+
+  const fileName = imageFileName(pokemon.id);
+  const imagePath = require(`../../data/images/${fileName}`);
+
   return (
     <>
       {guessing ? (
@@ -71,7 +77,7 @@ const EndScreen: React.FC<EndScreenProps> = ({
           <Styled.TopBarTextReveal>
             {guessRight ? `You're Right! ` : `No way! `}
             It's
-            <Styled.TopBarBold>{pokemon.name.english}</Styled.TopBarBold>!
+            <Styled.TopBarBold>{pokemon?.name}</Styled.TopBarBold>!
           </Styled.TopBarTextReveal>
         </Styled.TopBar>
       )}
@@ -81,7 +87,7 @@ const EndScreen: React.FC<EndScreenProps> = ({
           {!guessing && (
             <Styled.Image
               src={imagePath}
-              alt={`A picture of ${pokemon.name.english}`}
+              alt={`A picture of ${pokemon?.name}`}
             />
           )}
         </Styled.ImageContainer>
