@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+
 import { GlobalStyle, theme } from "./globalStyles";
 import Header from "./components/header";
 import Canvas from "./components/canvas";
@@ -31,6 +34,14 @@ export interface PokemonType {
     Speed: number;
   };
 }
+
+
+const client = new ApolloClient({
+  uri: 'https://whos-that-pokemon-api.herokuapp.com/v1/graphql',
+  headers: {
+    'X-Hasura-Admin-Secret': process.env.REACT_APP_HASURA_SECRET,
+  },
+});
 
 const App: React.FC = () => {
   const [gameStatus, setGameStatus] = useState(gameStatusTypes.Ready);
@@ -81,7 +92,7 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <>
+      <ApolloProvider client={client}>
         <GlobalStyle />
         <Header />
         {gameStatus === gameStatusTypes.Ended ? (
@@ -99,7 +110,7 @@ const App: React.FC = () => {
             handleImageCopy={setDrawnImage}
           />
         )}
-      </>
+      </ApolloProvider>
     </ThemeProvider>
   );
 };

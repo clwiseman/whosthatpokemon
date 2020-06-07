@@ -1,8 +1,12 @@
 import React, { useRef, useState } from "react";
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+
 import Button from "../button";
 import Timer from "../timer";
 import * as Styled from "./styles";
 import { gameStatusTypes, PokemonType } from "../../App";
+import { Generations, Query_Root } from "../../types/graphql-types";
 
 export enum Action {
   Draw,
@@ -17,6 +21,15 @@ interface CanvasProps {
   handleImageCopy: (canvas: CanvasImageSource | null) => void;
 }
 
+const PokemonGenerations = gql`
+  query MyQuery {
+    generations {
+      name
+      id
+    }
+  }
+`;
+
 const Canvas: React.FC<CanvasProps> = ({
   handleGameStart,
   handleGameEnd,
@@ -24,6 +37,8 @@ const Canvas: React.FC<CanvasProps> = ({
   gameStatus,
   pokemon
 }) => {
+  const { loading, error, data } = useQuery<Query_Root>(PokemonGenerations);
+
   const [isDrawing, setIsDrawing] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
   const [action, setAction] = useState(Action.Draw);
@@ -34,8 +49,14 @@ const Canvas: React.FC<CanvasProps> = ({
 
   const canvasRef = useRef(null);
 
+  if (loading || error || !data) {
+    return <div>Loading...</div>;
+  }
+
   const draw = (ctx: CanvasRenderingContext2D, e: React.MouseEvent) => {
-    if (!isDrawing) return;
+    if (!isDrawing) {
+      return;
+    }
 
     if (action === Action.Erase) {
       ctx.globalCompositeOperation = "destination-out";
@@ -75,15 +96,7 @@ const Canvas: React.FC<CanvasProps> = ({
     return null;
   };
 
-  const options = [
-    { value: 1, label: "Gen 1" },
-    { value: 2, label: "Gen 2" },
-    { value: 3, label: "Gen 3" },
-    { value: 4, label: "Gen 4" },
-    { value: 5, label: "Gen 5" },
-    { value: 6, label: "Gen 6" },
-    { value: 7, label: "Gen 7" }
-  ];
+  const options = data.generations.map((gen: Generations) => ({ value: gen.id, label: gen.name }));
 
   // Event Handlers
   const handleChange = (option: { value: number; label: string }) => {
@@ -159,21 +172,21 @@ const Canvas: React.FC<CanvasProps> = ({
         onMouseOut={handleMouseOut}
         onMouseUp={handleMouseUp}
         drawState={action === Action.Draw}
-      ></Styled.Canvas>
+      />
       <Styled.BottomBar>
         <Button
           icon="pencil"
           handleClick={handleCanvasDraw}
           drawState={action === Action.Draw}
           small
-        ></Button>
+        />
         <Button
           icon="eraser"
           handleClick={handleCanvasErase}
           drawState={action === Action.Erase}
           small
-        ></Button>
-        <Button icon="trash" handleClick={handleCanvasClear} small></Button>
+          />
+        <Button icon="trash" handleClick={handleCanvasClear} small/>
       </Styled.BottomBar>
     </Styled.DrawPad>
   );
