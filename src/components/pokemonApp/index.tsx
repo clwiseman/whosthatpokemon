@@ -5,7 +5,7 @@ import { gql } from 'apollo-boost';
 import Canvas from "../canvas";
 import EndScreen from "../endScreen";
 import { randomPokemon } from "../../helpers";
-import {Pokemon, Query_Root} from "../../types/graphql-types";
+import { Pokemon, Query_Root } from "../../types/graphql-types";
 
 export enum gameStatusTypes {
   Ready,

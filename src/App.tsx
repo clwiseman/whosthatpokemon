@@ -2,8 +2,14 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
 
 import PokemonApp from "./components/pokemonApp";
+import Lobby from "./pages/lobby";
 import { GlobalStyle, theme } from "./globalStyles";
 import Header from "./components/header";
 import { randomPokemonImage } from "./helpers";
@@ -17,12 +23,19 @@ const client = new ApolloClient({
 
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
-    <ApolloProvider client={client}>
-      <GlobalStyle />
-      <Header />
-      <img alt="random pokemon" src={`/pokemons/${randomPokemonImage()}`}/>
-      <PokemonApp />
-    </ApolloProvider>
+    <Router>
+      <ApolloProvider client={client}>
+        <GlobalStyle />
+        <Header />
+        <img alt="random pokemon" src={`/pokemons/${randomPokemonImage()}`}/>
+        <PokemonApp />
+        <Switch>
+          <Route path="/session/:joinID">
+            <Lobby />
+          </Route>
+        </Switch>
+      </ApolloProvider>
+    </Router>
   </ThemeProvider>
 );
 

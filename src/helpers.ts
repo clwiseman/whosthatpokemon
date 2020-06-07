@@ -22,7 +22,7 @@ export function randomPokemon(pokemons: Pokemon[]): Pokemon {
 }
 
 /**
- * Returns a random pokemon image to display on the home screen
+ * Returns a random pokemon image to display on the lobby screen
  */
 export function randomPokemonImage(): string {
   const randomID = Math.ceil(Math.random() * 809);
