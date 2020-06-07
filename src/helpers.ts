@@ -1,10 +1,10 @@
+import { Pokemon } from "./types/graphql-types";
+
 /**
  * From an array of objects, return the first object with a specific id value.
  * @param objs
  * @param id
  */
-import {Pokemon} from "./types/graphql-types";
-
 export function find<T extends { id: number }>(
   objs: T[],
   id: number,
@@ -19,6 +19,14 @@ export function find<T extends { id: number }>(
  */
 export function randomPokemon(pokemons: Pokemon[]): Pokemon {
   return pokemons[Math.floor(Math.random() * pokemons.length)];
+}
+
+/**
+ * Returns a random pokemon image to display on the home screen
+ */
+export function randomPokemonImage(): string {
+  const randomID = Math.ceil(Math.random() * 809);
+  return imageFileName(randomID);
 }
 
 /**
