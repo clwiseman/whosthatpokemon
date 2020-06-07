@@ -58,7 +58,7 @@ const EndScreen: React.FC<EndScreenProps> = ({
   }
 
   const fileName = imageFileName(pokemon.id);
-  const imagePath = require(`../../data/images/${fileName}`);
+  const imagePath = `/pokemons/${fileName}`;
 
   return (
     <>

@@ -6,6 +6,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import PokemonApp from "./components/pokemonApp";
 import { GlobalStyle, theme } from "./globalStyles";
 import Header from "./components/header";
+import { randomPokemonImage } from "./helpers";
 
 const client = new ApolloClient({
   uri: 'https://whos-that-pokemon-api.herokuapp.com/v1/graphql',
@@ -19,6 +20,7 @@ const App: React.FC = () => (
     <ApolloProvider client={client}>
       <GlobalStyle />
       <Header />
+      <img alt="random pokemon" src={`/pokemons/${randomPokemonImage()}`}/>
       <PokemonApp />
     </ApolloProvider>
   </ThemeProvider>
