@@ -5,8 +5,8 @@ import { gql } from 'apollo-boost';
 import Button from "../button";
 import Timer from "../timer";
 import * as Styled from "./styles";
-import { gameStatusTypes, PokemonType } from "../../App";
-import { Generations, Query_Root } from "../../types/graphql-types";
+import { gameStatusTypes } from "../pokemonApp";
+import { Generations, Pokemon, Query_Root } from "../../types/graphql-types";
 
 export enum Action {
   Draw,
@@ -14,15 +14,20 @@ export enum Action {
 }
 
 interface CanvasProps {
-  handleGameStart: (pokedex: number) => void;
+  handleGameStart: (pokedex: number[]) => void;
   handleGameEnd: () => void;
   gameStatus: gameStatusTypes;
-  pokemon: PokemonType;
+  pokemon?: Pokemon;
   handleImageCopy: (canvas: CanvasImageSource | null) => void;
 }
 
+interface SelectOption {
+  value: number;
+  label: string;
+}
+
 const PokemonGenerations = gql`
-  query MyQuery {
+  query GenerationsQuery {
     generations {
       name
       id
@@ -42,10 +47,7 @@ const Canvas: React.FC<CanvasProps> = ({
   const [isDrawing, setIsDrawing] = useState(false);
   const [locations, setLocations] = useState([] as { x: number; y: number }[]);
   const [action, setAction] = useState(Action.Draw);
-  const [selectedDex, setSelectedDex] = useState({
-    value: 0,
-    label: "Choose Pokedex..."
-  });
+  const [selectedDex, setSelectedDex] = useState<SelectOption[]>([]);
 
   const canvasRef = useRef(null);
 
@@ -99,8 +101,8 @@ const Canvas: React.FC<CanvasProps> = ({
   const options = data.generations.map((gen: Generations) => ({ value: gen.id, label: gen.name }));
 
   // Event Handlers
-  const handleChange = (option: { value: number; label: string }) => {
-    setSelectedDex(option);
+  const handleChange = (options: SelectOption[]) => {
+    setSelectedDex(options);
   };
 
   const handleCanvasDraw = () => {
@@ -141,7 +143,7 @@ const Canvas: React.FC<CanvasProps> = ({
           <>
             <Styled.TopBarText>
               Draw:
-              <Styled.TopBarBold>{pokemon.name.english}</Styled.TopBarBold>
+              <Styled.TopBarBold>{pokemon?.name}</Styled.TopBarBold>
             </Styled.TopBarText>
             <Timer handleGameEnd={handleGameEnd} />
             <Button text="End Game" handleClick={handleGameEnd} />
@@ -151,6 +153,11 @@ const Canvas: React.FC<CanvasProps> = ({
             <Styled.SelectMultiple
               name="Pokedex Selector"
               value={selectedDex}
+              defaultValue={{
+                value: 0,
+                label: "Choose Pokedex..."
+              }}
+              isMulti
               options={options}
               onChange={handleChange}
               closeMenuOnSelect={false}
@@ -158,7 +165,7 @@ const Canvas: React.FC<CanvasProps> = ({
             />
             <Button
               text="Start Game"
-              handleClick={() => handleGameStart(selectedDex.value)}
+              handleClick={() => handleGameStart(selectedDex.map(dex => dex.value))}
             />
           </>
         )}
