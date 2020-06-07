@@ -1,18 +1,29 @@
 import { createGlobalStyle } from "styled-components";
 
 export const theme = {
-  yellow: "#FFCB05",
-  blue: "#3D7DCA",
-  navyblue: "#003A70",
-  red: "#EE1515",
-  white: "#f0f0f0",
-  black: "#222224",
-  greydark: "#2D3047"
+  yellow: "#FFCC07",
+  blue: "#2A71B4",
+  lightblue: "#7ACCE6",
+  lightestblue: "@E5FFFF",
+  navyblue: "#1F3773",
+  red: "#E23201",
+  pink: "FE615F",
+  white: "#ffffff",
+  black: "#000000"
 };
 
 export const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC|DM+Sans:400,700|B612+Mono&display=swap');
-  
+  @font-face {
+    font-family: 'Pokemon';
+    src: local('Pokemon Solid Normal'), local('PokemonSolidNormal'),
+        url('fonts/PokemonSolidNormal.woff2') format('woff2'),
+        url('fonts/PokemonSolidNormal.woff') format('woff'),
+        url('fonts/PokemonSolidNormal.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   *,
   *::after,
   *::before {
@@ -29,8 +40,9 @@ export const GlobalStyle = createGlobalStyle`
   body {
     min-height: 100vh;
     box-sizing: border-box;
-    font-family: "DM Sans", sans-serif;
+    font-family: "PT Mono", monospace;
     background-color: ${theme.white};
+    font-size: 1.5rem;
   }
 
   button:focus,
@@ -39,6 +51,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    font-family: "Bowlby One SC", serif;
+    font-family: "Pokemon", arial, serif;
+    letter-spacing: 9px;
   }
 `;

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Button = styled.button<{ drawState?: boolean; small?: boolean }>`
-  background-color: ${props =>
-    props.drawState ? props.theme.blue : props.theme.navyblue};
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif; 
+  background-color: ${props => props.theme.red};
   color: ${props => props.theme.white};
   margin: 2rem 2rem;
   width: ${props => (props.small ? "12rem" : "18rem")};
@@ -13,13 +13,6 @@ export const Button = styled.button<{ drawState?: boolean; small?: boolean }>`
   cursor: pointer;
 
   :hover {
-    transform: translateY(-2px);
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
-  }
-
-  :active,
-  :focus {
-    transform: translateY(-1px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    background-color: ${props => props.theme.pink};
   }
 `;
