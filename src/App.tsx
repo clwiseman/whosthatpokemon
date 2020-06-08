@@ -8,11 +8,12 @@ import {
   Route
 } from 'react-router-dom';
 
-import PokemonApp from "./components/pokemonApp";
 import Lobby from "./pages/lobby";
+import Landing from "./pages/landing";
+
 import { GlobalStyle, theme } from "./globalStyles";
 import Header from "./components/header";
-import { randomPokemonImage } from "./helpers";
+import Footer from "./components/footer";
 
 const client = new ApolloClient({
   uri: 'https://whos-that-pokemon-api.herokuapp.com/v1/graphql',
@@ -27,13 +28,15 @@ const App: React.FC = () => (
       <ApolloProvider client={client}>
         <GlobalStyle />
         <Header />
-        <img alt="random pokemon" src={`/pokemons/${randomPokemonImage()}`}/>
-        <PokemonApp />
         <Switch>
           <Route path="/session/:joinID">
             <Lobby />
           </Route>
+          <Route path="/">
+            <Landing />
+          </Route>
         </Switch>
+        <Footer />
       </ApolloProvider>
     </Router>
   </ThemeProvider>
