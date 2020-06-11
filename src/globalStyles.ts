@@ -49,9 +49,4 @@ export const GlobalStyle = createGlobalStyle`
   button:active {
     outline: none;
   }
-
-  h1 {
-    font-family: "Pokemon", arial, serif;
-    letter-spacing: 9px;
-  }
 `;

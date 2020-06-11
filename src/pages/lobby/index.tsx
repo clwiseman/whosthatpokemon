@@ -2,7 +2,8 @@ import React from 'react';
 import { useParams } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import {Query_Root} from "../../types/graphql-types";
+import { Query_Root } from "../../types/graphql-types";
+import Container from "../../components/container"
 
 const GetSession = gql`
   query SessionQuery($joinID: String!) {
@@ -24,13 +25,15 @@ const Lobby: React.FC = () => {
   });
 
   if (loading || error || !data) {
-     return <div>Loading....</div>;
+    return <Container>Loading....</Container>;
   }
 
   return (
-    <pre>
-      {JSON.stringify(data)}
-    </pre>
+    <Container>
+      <pre>
+        {JSON.stringify(data)}
+      </pre>
+    </Container>
   );
 };
 
